@@ -94,11 +94,9 @@ app.post('/api/user/:id/change-email', async (req, res) => {
     return res.status(400).json({ error: 'Invalid input' });
   }
 
-  const userId = parseInt(req.params.id);
-  const newEmail = req.body.email;
-
   //sanitasi
-  // newEmail = purify.sanitize(newEmail);
+  const newEmail = purify.sanitize(req.body.email);
+  const userId = parseInt(req.params.id);
 
   try {
     const user = await db.user.update({
@@ -118,10 +116,19 @@ app.get('/api/file', (req, res) => {
   const fileName = path.basename(req.query.name);
   const filePath = path.join(__dirname, 'files', fileName);
 
-  //folder files itu permisalahn bolehnya buka folder itu
+  //extesion yang diperbolehkan buat dibuka
+  const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.txt'];
+  const fileExtension = path.extname(fileName).toLowerCase();
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    return res.status(400).json({ error: 'Invalid file type' });
+  }
+
+  // folder files cuman permisalah folder yang boleh diakses
   if (!filePath.startsWith(path.join(__dirname, 'files'))) {
     return res.status(400).json({ error: 'Invalid file path' });
   }
+
   res.sendFile(filePath);
 });
 

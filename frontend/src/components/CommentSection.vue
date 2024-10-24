@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue';
+import DOMPurify from 'dompurify';
 
 const comment = ref('');
 const comments = ref('');
 
 const submitComment = () => {
-  comments.value += `<p>${comment.value}</p>`;
+  //sanitasi input
+  const sanitizedComment = DOMPurify.sanitize(comment.value);
+  comments.value += `<p>${sanitizedComment}</p>`;
   comment.value = '';
 };
 </script>
