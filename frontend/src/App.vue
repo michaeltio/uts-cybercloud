@@ -5,20 +5,23 @@ import CommentSection from './components/CommentSection.vue';
 const userId = ref('');
 const users = ref(null);
 const newEmail = ref('');
+const emailMessage = ref('');
 
 const getUser = async () => {
   const response = await fetch(`http://localhost:3000/api/user/${userId.value}`);
   users.value = await response.json();
+  console.log(users.value.email);
 };
 
 const changeEmail = async () => {
-  await fetch('http://localhost:3000/api/change-email', {
+  const response = await fetch(`http://localhost:3000/api/user/${userId.value}/change-email`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
-    body: `email=${newEmail.value}`,
+    body: JSON.stringify({ email: newEmail.value }),
   });
+  emailMessage.value = await response.json();
 };
 </script>
 
@@ -30,11 +33,10 @@ const changeEmail = async () => {
       <button @click="getUser">Get User Info</button>
     </div>
     <div v-if="users">
-      <template v-for="user in users">
-        <h2>{{ user.name }}</h2>
-        <p>Email: {{ user.email }}</p>
+        <h2>{{ users.name }}</h2>
+        <p>Email: {{ users.email }}</p>
+        <p>{{ users.error }}</p>
         <hr />
-      </template>
     </div>
     <CommentSection />
     <form @submit.prevent="changeEmail">
@@ -42,5 +44,7 @@ const changeEmail = async () => {
       <input v-model="newEmail" placeholder="New Email" />
       <button type="submit">Submit</button>
     </form>
+    <p v-if="emailMessage.message">{{ emailMessage.message}}</p>
+    <p v-if="emailMessage.error">{{ emailMessage.error }}</p>
   </div>
 </template>
