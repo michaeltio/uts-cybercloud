@@ -8,17 +8,19 @@ import rateLimit from 'express-rate-limit'; //limit request
 import DOMPurify from 'dompurify'; //sanitasi input
 import Joi from 'joi'; //validasi input
 import { JSDOM } from 'jsdom'; //sanitasi html
+import helmet from 'helmet'; //security header
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 //sanitasi html
 const window = new JSDOM('').window;
 const purify = DOMPurify(window);
 
+app.use(helmet());
 app.use(express.json());
 app.use(cors({
-  origin: '*',
+  origin: "*",
   optionsSuccessStatus: 200,
 }));
 
@@ -31,23 +33,15 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // temp route buat nge test prisma
-// app.get('/api/seed', async (req, res) => {
+//delete all existing user
+// app.get('/api/delete', async (req, res) => {
 //   try {
-//     await db.user.createMany({
-//       data: [
-//         { email: 'alice@example.com', name: 'Alice' },
-//         { email: 'bob@example.com', name: 'Bob' },
-//         { email: 'carol@example.com', name: 'Carol' },
-//         { email: 'dave@example.com', name: 'Dave' },
-//         { email: 'eve@example.com', name: 'Eve' },
-//       ],
-//     });
-//     res.status(200).json({ message: 'Data seeded successfully' });
+//     await db.user.deleteMany();
+//     res.status(200).json({ message: 'Data deleted successfully' });
 //   } catch (error) {
 //     res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // });
-
 
 // app.get('/api/users', async (req, res) => {
 //   try {
