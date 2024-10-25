@@ -12,6 +12,9 @@ RUN pnpm install
 
 RUN npx prisma generate
 
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 RUN pnpm seed
 
 EXPOSE 3000
