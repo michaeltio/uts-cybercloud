@@ -19,8 +19,21 @@ const purify = DOMPurify(window);
 
 app.use(helmet());
 app.use(express.json());
+
+const allowedOrigins = [
+  'http://utsmichaeltio70515.xyz/michael-tio/',
+  '20.211.86.70',
+  'http://localhost',
+];
+
 app.use(cors({
-  origin: "*",
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   optionsSuccessStatus: 200,
 }));
 
