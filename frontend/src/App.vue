@@ -7,7 +7,7 @@ const users = ref(null);
 const newEmail = ref('');
 const emailMessage = ref('');
 
-const URL = process.env.SERVER_URL || 'http://localhost:3000';
+const URL = process.env.SERVER_URL || 'http://utsmichaeltio70515.xyz';
 
 const getUser = async () => {
   const response = await fetch(`${URL}/api/user/${userId.value}`);
