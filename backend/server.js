@@ -23,7 +23,9 @@ app.use(express.json());
 const allowedOrigins = [
   'http://utsmichaeltio70515.xyz/michael-tio/',
   '20.211.86.70',
-  'http://localhost',
+  'http://localhost:3000',
+  'http://localhost:80',
+  'http://localhost'
 ];
 
 app.use(cors({
