@@ -3,6 +3,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        SERVER_URL: "http://utsmichaeltio70515.xyz"
     ports:
       - "80:80"
 

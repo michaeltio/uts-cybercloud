@@ -7,14 +7,16 @@ const users = ref(null);
 const newEmail = ref('');
 const emailMessage = ref('');
 
+const URL = process.env.SERVER_URL || 'http://localhost:3000';
+
 const getUser = async () => {
-  const response = await fetch(`http://localhost:3000/api/user/${userId.value}`);
+  const response = await fetch(`${URL}/api/user/${userId.value}`);
   users.value = await response.json();
   console.log(users.value.email);
 };
 
 const changeEmail = async () => {
-  const response = await fetch(`http://localhost:3000/api/user/${userId.value}/change-email`, {
+  const response = await fetch(`${URL}/api/user/${userId.value}/change-email`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

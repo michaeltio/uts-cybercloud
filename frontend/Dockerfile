@@ -12,6 +12,9 @@ COPY . .
 RUN pnpm install
 RUN pnpm build
 
+ARG SERVER_URL
+ENV SERVER_URL=${SERVER_URL}
+
 # Stage 2: Serve the application with Nginx
 FROM nginx:stable-alpine AS production
 
