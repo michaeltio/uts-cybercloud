@@ -21,7 +21,8 @@ app.use(helmet());
 app.use(express.json());
 
 const allowedOrigins = [
-  'http://utsmichaeltio70515.xyz/michael-tio/',
+  'http://utsmichaeltio70515.xyz/michael-tio',
+  'http://utsmichaeltio70515.xyz',
   '20.211.86.70',
   'http://localhost:3000',
   'http://localhost:80',
